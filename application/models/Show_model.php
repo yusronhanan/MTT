@@ -191,7 +191,6 @@ class Show_model extends CI_Model {
                  // ->join('user_merchant', 'user_merchant.id = cart.id_merchant')
                     //->order_by('product_category','ASC')
                       ->get('cart')
-            
                       ->result();
     }
     public function GetDataMerchantProfile($merchant_username)
@@ -249,6 +248,7 @@ class Show_model extends CI_Model {
             ->join('product', 'product.id = cart.product_id')
             ->join('user_merchant', 'user_merchant.id = cart.id_merchant')
             ->order_by('id_cart','ASC')
+            ->group_by('id_cart')
             ->get('cart')
             
             ->result();
@@ -267,6 +267,7 @@ class Show_model extends CI_Model {
             ->result();
             
     }
+    
     public function GetDataSearchMerchant($where){
       return $this->db
       ->select('*, user_merchant.id as merchant_id ,wishlist_merchant.merchant_id as merchant_id2, wishlist_merchant.id as wish_id')

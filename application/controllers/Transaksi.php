@@ -117,36 +117,30 @@ class Transaksi extends CI_Controller {
 	$this->form_validation->set_rules('date_ship', 'Date Ship', 'trim|required');
 	$this->form_validation->set_rules('random', 'Random', 'trim|required');
 	$this->form_validation->set_rules('date_buy', 'Tanggal Windows anda tidak valid', 'trim|required');
-	$this->form_validation->set_rules('noTCASH', 'No TCASH', 'trim|required');
+
 
 			if ($this->form_validation->run() == TRUE) {
 			 		if ($this->in_model->Insert_checkout()==TRUE) 
 			 		{
 				if ($this->session->userdata('logged_in') == true) {
-				redirect('Page/OrderAnda');
-        		
+				$code = $this->input->post('random');
+				$order_id = $this->in_model->GetData(['code'=>$code,'user_id'=>$this->session->userdata('logged_id')],'product_order')->row('id');
+				redirect('https://jualbelimtt.com/pages/payment_web.php?orderid='.$order_id);
         }
 			 	}
 			 	
 			 	else{
 			 	if ($this->session->userdata('logged_in') == true) {
-				$id=$this->session->userdata('logged_id');
-				$data['user']= $this->show_model->GetData(array("id"=>$id),'user_merchant');
-				$data['list_keranjang']= $this->show_model->GetDataKeranjang();
-            	$data['main_view']= 'checkout';
-		 		$data['notif']='Checkout gagal';
-				$this->load->view('template_null',$data);
+				$this->session->set_flashdata('notif', 'Maaf Checkout anda gagal');
+				redirect('pagein/checkout');
         		
         }
 			 	}
 			 } else {
 			 	if ($this->session->userdata('logged_in') == true) {
-				$id=$this->session->userdata('logged_id');
-				$data['user']= $this->show_model->GetData(array("id"=>$id),'user_merchant');
-				$data['list_keranjang']= $this->show_model->GetDataKeranjang();
-            	$data['main_view']= 'checkout';
-		 		$data['notif']=validation_errors();
-				$this->load->view('template_null',$data);
+				$this->session->set_flashdata('notif', validation_errors());
+				redirect('pagein/checkout');
+		 	
         		
         }
 			  	
@@ -161,6 +155,10 @@ class Transaksi extends CI_Controller {
             	$data['main_view']= 'checkout';
 				$this->load->view('template_null',$data);
         		
+        }
+        else{
+        	$this->session->set_flashdata('notif_log_password', 'Maaf anda harus login terlebih dahulu');
+				redirect('page');
         }
 		}
 	}

@@ -110,7 +110,6 @@
             <?php if ($this->session->userdata('logged_in') == TRUE ) {?>
             <li ><a id="wishlist" href="<?php echo base_url(); ?>pagein/wishlist"><h4><i class="fa fa-heart-o"></i>  Wishlist</h4></a></li>
             <?php }?>
-            <li ><a id="hotlist" href="<?php echo base_url(); ?>page/hotlist"><h4><i class="fa fa-fire"></i>  Hot List</h4></a></li>
             <li ><a id="merchant" href="<?php echo base_url(); ?>page/merchant"><h4><i class="fa fa-shopping-bag"></i>  Merchant</h4></a></li>
             <?php if ($this->session->userdata('logged_in') == TRUE ) {?>
             <li ><a id="merchantfavorit" href="<?php echo base_url(); ?>pagein/merchantfavorite"><h4><i class="fa fa-shopping-basket"></i>  Merchant Favorit</h4></a></li>
@@ -176,7 +175,16 @@
 													<input type="hidden" id="jumlah_produk" class="this" name="" value="1"/> 
 													<input type="hidden" id="merchant_id" class="this" name="" value="<?php echo $tso->merchant_id;?>"/>
 													<input type="hidden" id="id1" class="this" name="" value=""/> 
+													<?php
+													if ($tso->approve == '1') { ?>
 													<button type="submit" id="tambahcart"  class="this btn btn-primary"><i class="fa fa-cart-plus"></i> </button>
+													<?php
+												} else{
+
+													?>
+													<button class="this btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Produk Iklan"><i class="fa fa-info"></i> </button>
+													<?php } ?>
+
 													<input type="hidden" id="wishlist_id" name="" value="<?php echo $tso->wish_id;?>" />
 													<?php
 													if (in_array($tso->pro_id, $product_validation) && $this->session->userdata('logged_in') == TRUE ) { ?>
@@ -238,7 +246,15 @@
 													<input type="hidden" id="jumlah_produk" class="this" name="" value="1"/> 
 													<input type="hidden" id="merchant_id" class="this" name="" value="<?php echo $snack->merchant_id;?>"/>
 													<input type="hidden" id="id1" class="this" name="" value=""/> 
-													<button type="submit" id="tambahcart"  class="this btn btn-primary" ><i class="fa fa-cart-plus"></i> </button>
+													<?php
+													if ($snack->approve == '1') { ?>
+													<button type="submit" id="tambahcart"  class="this btn btn-primary"><i class="fa fa-cart-plus"></i> </button>
+													<?php
+												} else{
+
+													?>
+													<button class="this btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Produk Iklan"><i class="fa fa-info"></i> </button>
+													<?php } ?>
 
 													<input type="hidden" id="wishlist_id" name="" value="<?php echo $snack->wish_id;?>" />
 													<?php
@@ -299,7 +315,15 @@
 													<input type="hidden" class="this" id="jumlah_produk" name="" value="1"/> 
 													<input type="hidden" id="merchant_id" class="this" name="" value="<?php echo $kesehatan->merchant_id;?>"/>
 													<input type="hidden" id="id1" class="this" name="" value=""/> 
+													<?php
+													if ($kesehatan->approve == '1') { ?>
 													<button type="submit" id="tambahcart"  class="this btn btn-primary"><i class="fa fa-cart-plus"></i> </button>
+													<?php
+												} else{
+
+													?>
+													<button class="this btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Produk Iklan"><i class="fa fa-info"></i> </button>
+													<?php } ?>
 													<input type="hidden" id="wishlist_id" name="" value="<?php echo $kesehatan->wish_id;?>" />
 													<?php
 													if (in_array($kesehatan->pro_id, $product_validation) && $this->session->userdata('logged_in') == TRUE ) { ?>
@@ -358,7 +382,15 @@
 													<input type="hidden" id="jumlah_produk" class="this" name="" value="1"/> 
 													<input type="hidden" id="merchant_id" class="this" name="" value="<?php echo $buku->merchant_id;?>"/>
 													<input type="hidden" id="id1" class="this" name="" value=""/> 
-													<button type="submit" id="tambahcart"  class="this btn btn-primary" ><i class="fa fa-cart-plus"></i> </button>
+													
+													<?php if ($tso->approve == '1') { ?>
+													<button type="submit" id="tambahcart"  class="this btn btn-primary"><i class="fa fa-cart-plus"></i> </button>
+													<?php
+												} else{
+
+													?>
+													<button class="this btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Produk Iklan"><i class="fa fa-info"></i> </button>
+													<?php } ?>
 													<input type="hidden" id="wishlist_id" name="" value="<?php echo $buku->wish_id;?>" />
 													<?php
 													if (in_array($buku->pro_id, $product_validation) && $this->session->userdata('logged_in') == TRUE ) { ?>
@@ -417,7 +449,15 @@
 													<input type="hidden" id="jumlah_produk" class="this" name="" value="1"/> 
 													<input type="hidden" id="merchant_id" class="this" name="" value="<?php echo $fashion->merchant_id;?>"/>
 													<input type="hidden" id="id1" class="this" name="" value=""/> 
-													<button type="submit" id="tambahcart"  class="this btn btn-primary" ><i class="fa fa-cart-plus"></i> </button>
+													
+													<?php if ($fashion->approve == '1') { ?>
+													<button type="submit" id="tambahcart"  class="this btn btn-primary"><i class="fa fa-cart-plus"></i> </button>
+													<?php
+												} else{
+
+													?>
+													<button class="this btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Produk Iklan"><i class="fa fa-info"></i> </button>
+													<?php } ?>
 													<input type="hidden" id="wishlist_id" name="" value="<?php echo $fashion->wish_id;?>" />
 													<?php
 													if (in_array($fashion->pro_id, $product_validation) && $this->session->userdata('logged_in') == TRUE ) { ?>

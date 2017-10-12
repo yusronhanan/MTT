@@ -158,7 +158,6 @@
  
             <li ><a id="wishlist" href="<?php echo base_url(); ?>pagein/wishlist"><h4><i class="fa fa-heart"></i>  Wishlist</h4></a></li>
              <?php } ?>
-            <li ><a id="hotlist" href="<?php echo base_url(); ?>page/hotlist"><h4><i class="fa fa-fire"></i>  Hot List</h4></a></li>
             <li ><a id="merchant" href="<?php echo base_url(); ?>page/merchant"><h4><i class="fa fa-shopping-bag"></i>  Merchant</h4></a></li>
             <?php if ($this->session->userdata('logged_in') == TRUE ) {?>
             <li class="active"><a id="merchantfavorit" href="<?php echo base_url(); ?>pagein/merchantfavorite"><h4><i class="fa fa-shopping-basket"></i>  Merchant Favorit</h4></a></li>
@@ -170,6 +169,15 @@
         <!-- banner 2 end -->
 <div class="container" style="margin-top:20px">
 <div class="row">
+    <?php if (empty($list_merchant)){ ?>
+                      <div class="box-body">
+              <div class="callout callout-success">
+                <h4>Maaf,</h4>
+
+                <p style="color:white">Anda belum menambahkan salah satu merchant ke list merchant favorit anda</p>
+              </div>
+            </div>
+                   <?php } ?>
     <?php
                         $i = 0;
 

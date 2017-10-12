@@ -25,7 +25,7 @@ class Page extends CI_Controller {
 			'product_validation' => $product_validation,
             'main_view' => 'home',
             //'nama'      => $this->session->userdata('logged_name'),
-            'amountorder' => $this->show_model->AmountOrder(),
+            // 'amountorder' => $this->show_model->AmountOrder(),
             'amountCart'  => count($this->show_model->GetDataCart()),
             'list_cart' => $this->show_model->GetDataCart(),
             'list_tso' => $this->show_model->GetDataProdukHome('11'),
@@ -45,21 +45,21 @@ class Page extends CI_Controller {
 
 	
 	public function Fullcategory(){
-		$data['amountorder'] = $this->show_model->AmountOrder();
+		// $data['amountorder'] = $this->show_model->AmountOrder();
 		$data['main_view']='fullcategory';
 		$data['amountCart']=count($this->show_model->GetDataCart());
 		$data['list_cart']= $this->show_model->GetDataCart();
 		$this->load->view('template', $data);
 	}
 	public function Help(){
-		$data['amountorder'] = $this->show_model->AmountOrder();
+		// $data['amountorder'] = $this->show_model->AmountOrder();
 		$data['list_cart']= $this->show_model->GetDataCart();
 		$data['amountCart']=count($this->show_model->GetDataCart());
 		$data['main_view']='help';
 		$this->load->view('template', $data);
 	}
 	public function Contactus(){
-		$data['amountorder'] = $this->show_model->AmountOrder();
+		// $data['amountorder'] = $this->show_model->AmountOrder();
 		$data['list_cart']= $this->show_model->GetDataCart();
 		$data['amountCart']=count($this->show_model->GetDataCart());
 		$data['main_view']='contact';
@@ -69,21 +69,7 @@ class Page extends CI_Controller {
 
 
 	
-	public function Hotlist_Product(){
-		$keyword = $this->input->post('keyword');
-		$data = [
-			'keyword' => $keyword,
-			'amountorder' => $this->show_model->AmountOrder(),
-			'list_cart' => $this->show_model->GetDataCart(),
-			'amountCart'  => count($this->show_model->GetDataCart()),
-            'main_view' => 'hotlist_produk',
-            //'nama'      => $this->session->userdata('logged_name'),
-            'list_product' => $this->show_model->GetSearchData(array("product.name LIKE"=>"%".$keyword."%")) 
-          	//  'active'    => 'kategoriapa'
-          	
-        ];
-		$this->load->view('template', $data);
-	}
+
 
 	public function Search(){
 		$search=  $this->input->post('search');
@@ -112,15 +98,7 @@ class Page extends CI_Controller {
        
     }
 
-    public function hotlist(){
-    	$keyword = 'kurma';
-    	$data['amountorder'] = $this->show_model->AmountOrder();
-    	$data['amountCart']=count($this->show_model->GetDataCart());
-		$data['list_cart']= $this->show_model->GetDataCart();
-    	$data['main_view']='hotlist';
-    	$data['list_product'] = $this->show_model->GetSearchData(array("product.name LIKE"=>"%".$keyword."%")) ;
-		$this->load->view('template', $data);
-    }
+ 
     public function filter_product(){
     $keyword = $this->input->get('keyword');
 
@@ -182,7 +160,7 @@ class Page extends CI_Controller {
     		'user_validation' =>  $user_validation,
 			'list_kategori'	=> $this->show_model->GetAllData('category'),
 			'product_validation' => $product_validation,
-			'amountorder' => $this->show_model->AmountOrder(),
+			// 'amountorder' => $this->show_model->AmountOrder(),
 			'list_cart' => $this->show_model->GetDataCart(),
 			'amountCart'  => count($this->show_model->GetDataCart()),
 			'category_id' => $category,
@@ -212,7 +190,7 @@ class Page extends CI_Controller {
 		$data = [
 			'list_kategori'	=> $this->show_model->GetAllData('category'),
 			'product_validation' => $product_validation,
-			'amountorder' => $this->show_model->AmountOrder(),
+			// 'amountorder' => $this->show_model->AmountOrder(),
 			'list_cart' => $this->show_model->GetDataCart(),
 			'amountCart'  => count($this->show_model->GetDataCart()),
 			'category_id' => $category_id,
@@ -232,7 +210,7 @@ class Page extends CI_Controller {
 			$product_validation[] = $wish->product_id;
 		}
 		$data = [
-			'amountorder' => $this->show_model->AmountOrder(),	
+			// 'amountorder' => $this->show_model->AmountOrder(),	
 			'amountCart'  => count($this->show_model->GetDataCart()),
 			'product_validation' => $product_validation,
 			'list_cart' => $this->show_model->GetDataCart(),
@@ -247,9 +225,9 @@ class Page extends CI_Controller {
 	public function Cart(){
 		if ($this->session->userdata('logged_in') == true) {
 
-		$data['amountorder'] = $this->show_model->AmountOrder();
+		// $data['amountorder'] = $this->show_model->AmountOrder();
 		$data['amountCart']=count($this->show_model->GetDataCart());
-		$data['list_cart'	]= $this->show_model->GetDataCart();
+		$data['list_cart']= $this->show_model->GetDataCart();
 		$data['list_keranjang']= $this->show_model->GetDataKeranjang();
 		$data['main_view']='keranjang';
 		$this->load->view('template', $data);
@@ -262,6 +240,7 @@ class Page extends CI_Controller {
 	if ($this->session->userdata('logged_in') == true) {
 
 		$status ="Pesanan ditujukan ke Merchant";
+		$statusmp ="Menunggu Pembayaran";
 		$statuscancel ="Order Dibatalkan";
 		$statusselesai ="Selesai";
 		$this->load->library('Pagination');
@@ -292,12 +271,13 @@ class Page extends CI_Controller {
 		$config['last_tagl_close'] = "</li>";
 		//$data['list_selesai']= $this->show_model->GetFinishOrder($statusselesai,$limit,$offset);
 		$this->pagination->initialize($config);
-		$data['amountorder'] = $this->show_model->AmountOrder();
+		// $data['amountorder'] = $this->show_model->AmountOrder();
 		$data['amountCart']=count($this->show_model->GetDataCart());
 		$data['list_cart']= $this->show_model->GetDataCart();
 		// $data['list_keranjang']= $this->show_model->GetDataKeranjang();
 		//$data['list_selesai']= $this->show_model->GetDataOrder($statusselesai);
 		$data['list_order']= $this->show_model->GetStatusOrder($status,$limit,$offset);
+		// $data['list_mp']= $this->show_model->GetStatusOrder($statusmp,$limit,$offset);
 		$data['list_cancel']= $this->show_model->GetDataOrder($statuscancel);
 		$data['main_view']='status_order';
 		$this->load->view('template', $data);
@@ -340,7 +320,7 @@ class Page extends CI_Controller {
 		$config['last_tagl_close'] = "</li>";
 		$data['list_selesai']= $this->show_model->GetFinishOrder($statusselesai,$limit,$offset);
 		$this->pagination->initialize($config);
-		$data['amountorder'] = $this->show_model->AmountOrder();
+		// $data['amountorder'] = $this->show_model->AmountOrder();
 		$data['amountCart']=count($this->show_model->GetDataCart());
 		$data['list_cart']= $this->show_model->GetDataCart();
 		// $data['list_keranjang']= $this->show_model->GetDataKeranjang();
@@ -390,7 +370,7 @@ class Page extends CI_Controller {
 		$config['last_tagl_close'] = "</li>";
 		$data['list_selesai']= $this->show_model->GetFinishOrder($statusselesai,$limit,$offset);
 		$this->pagination->initialize($config);
-		$data['amountorder'] = $this->show_model->AmountOrder();
+		// $data['amountorder'] = $this->show_model->AmountOrder();
 		$data['amountCart']=count($this->show_model->GetDataCart());
 		$data['list_cart']= $this->show_model->GetDataCart();
 		// $data['list_keranjang']= $this->show_model->GetDataKeranjang();
@@ -427,7 +407,7 @@ class Page extends CI_Controller {
 		$data['list_cart']= $this->show_model->GetDataCart();
 		$data['list_merchant']= $this->show_model->GetDataMerchantProfile($merchant_username);
 		$data['main_view']='merchant_profile';
-		$data['amountorder'] = $this->show_model->AmountOrder();
+		// $data['amountorder'] = $this->show_model->AmountOrder();
 		$data['list_product'] = $this->show_model->GetProdukMerchant(array("product.id"=>$merchant_id)); 
 		$this->load->view('template', $data);
 	}
@@ -439,7 +419,7 @@ class Page extends CI_Controller {
 		}
 
 		$data['user_validation']= $user_validation;
-		$data['amountorder'] = $this->show_model->AmountOrder();
+		// $data['amountorder'] = $this->show_model->AmountOrder();
 		$data['amountCart']=count($this->show_model->GetDataCart());
 		$data['list_cart']= $this->show_model->GetDataCart();
 		$data['list_merchant']= $this->show_model->GetDataMerchant();

@@ -14,7 +14,33 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
 		function hideURLbar(){ window.scrollTo(0,1); } </script>
+ <script type="text/javascript">
+        function unseen_notification() {
+        	var view = 'view';
+   	
+            $.ajax({
+    		url:"<?php echo base_url(); ?>pagein/unseen_notification",
+    		method:"POST",
+    		data:{view:view},
+    		// dataType:"json",
+    		success:function(e){
+    			var data = e.split("|");
+    			// alert(data);
+    			$('ul#mininotif').html(data[0]);
+    			if (data[1] == '0') {
+                    	 	$('#amountNotifikasi').addClass('hidden');
+                    	 }
+                  else{
+                    	 		$('#amountNotifikasi').removeClass('hidden');	
+                    	 }
+    			$('#amountNotifikasi').html(data[1]);
+    		}
+    	});
+        }
+  window.onload = unseen_notification;
+      
 
+        </script>
 
 
 <!-- Custom Theme files -->
@@ -185,78 +211,27 @@ ul.dropdown-cart li .item-right button{
 
 <body>
 
+
 <div class="header">
-		<div class="w3ls-header"><!--header-one--> 
+<div class="w3ls-header" id="scrollablees"><!--header-one--> 
 			<!-- <div class="w3ls-header-left">
 				<p><a href="#">UPTO $50 OFF ON LAPTOPS | USE COUPON CODE LAPPY </a></p>
 			</div> -->
 			<div class="w3ls-header-right" >
 				<ul>
-					<?php if ($this->session->userdata('logged_in') == true) {
-          				?>
-					<li class="dropdown head-dpdn">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user" aria-hidden="true"></i> My Account<span class="caret"></span></a>
-						<ul class="dropdown-menu">
-						
-          				<li><a href="<?php echo base_url(); ?>Pagein/MyProfile">My Profile</a></li>
-          				<li><a href="<?php echo base_url(); ?>Auth/Logout">Logout</a></li>
-          			</ul>
-          		</li>
-          		
-           
-
-            
+				
 
           					<li class="dropdown head-dpdn" id="openNotifikasi">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" id="openexpanded"><i class="fa fa-bell" aria-hidden="true"></i> Notifikasi<?php  if (!empty($amountNotifikasi)) {?> 
-						<span class="badge">
-						<?php echo $amountNotifikasi; ?> 
+						<a href="#" class="dropdown-toggle notification_null" data-toggle="dropdown" role="button" aria-expanded="false" id="openexpanded"><i class="fa fa-bell" aria-hidden="true"></i> Notification
+						
+						<span class="badge" id="amountNotifikasi">
+						
 						</span>
-						<?php }  ?></a>
-						<ul  class="dropdown-menu dropdown-cart" role="menu">
-              <li id="mininotif"></li>
-
-              <?php 
-
-		
-	
-          				
-              if (empty($list_notif)): ?>
-							 <li class="text-center" >Tidak ada notifikasi terbaru</li>
-							 <li class="divider"></li>
-              <li><a class="text-center" href="<?php echo base_url(); ?>page/notifikasi">Lihat Semua Pemberitahuan</a></li>
-					<?php endif ?>
-
-					<?php if (!empty($list_notif)): ?>
-              <!-- loop notifikasi -->
-               <?php
-                        $i = 1;
-                        foreach ($list_notif as $notifikasi): 
-						// $i++
-						 ?>
-               <li>
-                  <span class="item">
-                    <span class="item-left">
-                        <!-- <img src="http://lorempixel.com/50/50/" alt="" /> -->
-                        <span class="item-info">
-                            <span><?php echo substr($notifikasi->subject,0,9); ?>...</span>
-                            <span><?php echo $notifikasi->text; ?></span>
-                        </span>
-                    </span>
-                    <span class="item-right">
-                    	<input type="hidden" id="id_notifikasi" class="this" name="" value="<?php echo $notifikasi->id_notifikasi;?>" />
-                        
-                    </span>
-                </span>
-              </li>
-              <?php endforeach; ?>
-              
-              <!-- loop notifikasi end -->
-				<li class="divider"></li>
-              <li><a class="text-center" href="<?php echo base_url(); ?>page/notifikasi">Lihat Semua Pemberitahuan</a></li>
-              <?php endif; 
-              ?>
-             
+						
+					</a>
+						<ul  class="dropdown-menu dropdown-cart" id="mininotif" role="menu">
+ 
+            
 						
 						 
 						
@@ -265,34 +240,20 @@ ul.dropdown-cart li .item-right button{
               
           </ul>
 					</li> 
-					<li class="dropdown head-dpdn">
-						<a href="<?php echo base_url(); ?>Page/OrderAnda" class="dropdown-toggle"><i class="fa fa-shopping-basket" aria-hidden="true"></i> Status Order<?php  if ($this->session->userdata('logged_in') == TRUE) {?> 
-						<span class="badge">
-						<?php echo $amountorder; ?> 
-						</span>
-						<?php }  ?></a>
-					</li>
-
 					
+
+					<li class="dropdown head-dpdn">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user" aria-hidden="true"></i> My Account<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+						
+          				<li><a href="<?php echo base_url(); ?>Pagein/MyProfile">My Profile</a></li>
+          				<li><a href="<?php echo base_url(); ?>Auth/Logout">Logout</a></li>
+          			</ul>
+          		</li>
              
 						
 						 
 						
-				
-              
-              
-          
-
-
-
-          				<?php } else { ?>
-          		<li class="dropdown head-dpdn">
-						<a href="<?php echo base_url(); ?>Auth/Login" class="dropdown-toggle"><i class="fa fa-sign-in aria-hidden="true"></i> Login</a>
-					</li>
-					<li class="dropdown head-dpdn">
-						<a href="<?php echo base_url(); ?>Auth/Register" class="dropdown-toggle"><i class="fa fa-user-plus" aria-hidden="true"></i> Sign Up</a>
-					</li>
-							<?php } ?>
 							
 							
 					
@@ -321,7 +282,6 @@ ul.dropdown-cart li .item-right button{
 					<li class="dropdown head-dpdn">
 						<a href="<?php echo base_url(); ?>page/help" class="dropdown-toggle"><i class="fa fa-question-circle" aria-hidden="true"></i> Help</a>
 					</li>
-					
 				</ul>
 			</div>
 			<div class="clearfix"> </div> 
@@ -367,3 +327,34 @@ $this->load->view($main_view);
     <!-- Placed at the end of the document so the pages load faster --> 
 </body>
 </html>
+<script type="text/javascript">
+	$('.notification_null').click(function(event) {
+  		 	var view = 'notification_null';
+                    	 // $('#amountNotifikasi').html('');
+
+        		if ($(this).parent().hasClass("dropdown head-dpdn open")) {
+        	 	$.ajax({
+                    url: '<?php echo base_url(); ?>Pagein/unseen_notification',
+                    type: 'post',
+                    data: {view : view},
+                    success: function(e){
+                    	 if (e == '0') {
+                    	 	$('#amountNotifikasi').addClass('hidden');
+                    	 }
+                    	 else{
+                    	 		$('#amountNotifikasi').removeClass('hidden');	
+                    	 }
+                    	 $('#amountNotifikasi').html(e);
+
+                    	 // unseen_notification();
+                    }
+                });
+        	 			}	
+        	});
+
+
+	
+    setInterval(function(){ unseen_notification() }, 3000);
+  
+	</script>
+</script>

@@ -28,7 +28,31 @@
     		}
     	});
         }
+
+         function mini_status() {
+        	var view = 'view';
+   	
+            $.ajax({
+    		url:"<?php echo base_url(); ?>pagein/mini_status",
+    		method:"POST",
+    		data:{view:view},
+    		// dataType:"json",
+    		success:function(e){
+    			var data = e.split("|");
+    			// alert(data);
+    			$('ul#ministatus').html(data[0]);
+    			if (data[1] == '0') {
+                    	 	$('#amountOrder').addClass('hidden');
+                    	 }
+                  else{
+                    	 		$('#amountOrder').removeClass('hidden');	
+                    	 }
+    			$('#amountOrder').html(data[1]);
+    		}
+    	});
+        }
         window.onload = unseen_notification;
+        window.onload = mini_status;
 
         </script>
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
@@ -271,14 +295,7 @@ ul.dropdown-cart li .item-right button{
 				<ul>
 					<?php if ($this->session->userdata('logged_in') == true) {
           				?>
-					<li class="dropdown head-dpdn">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user" aria-hidden="true"></i> My Account<span class="caret"></span></a>
-						<ul class="dropdown-menu">
-						
-          				<li><a href="<?php echo base_url(); ?>Pagein/MyProfile">My Profile</a></li>
-          				<li><a href="<?php echo base_url(); ?>Auth/Logout">Logout</a></li>
-          			</ul>
-          		</li>
+					
           		<li class="dropdown head-dpdn" id="opencart">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" id="openexpanded"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart<?php  if (!empty($amountCart)) {?> 
 						<span class="badge">
@@ -342,9 +359,7 @@ ul.dropdown-cart li .item-right button{
 					</a>
 						<ul  class="dropdown-menu dropdown-cart" id="mininotif" role="menu">
  
-            <li class="divider"></li>
-              <li><a class="text-center" href="<?php echo base_url(); ?>page/notifikasi">Lihat Semua Pemberitahuan</a></li>
-        
+            
 						
 						 
 						
@@ -354,14 +369,23 @@ ul.dropdown-cart li .item-right button{
           </ul>
 					</li> 
 					<li class="dropdown head-dpdn">
-						<a href="<?php echo base_url(); ?>Page/OrderAnda" class="dropdown-toggle"><i class="fa fa-shopping-basket" aria-hidden="true"></i> Status Order<?php  if ($this->session->userdata('logged_in') == TRUE) {?> 
-						<span class="badge">
-						<?php echo $amountorder; ?> 
-						</span>
-						<?php }  ?></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" id="openexpanded"><i class="fa fa-shopping-basket"></i> Status Order
+					<span class="badge" id="amountOrder">
+						
+						</span></a>
+						<ul  class="dropdown-menu dropdown-cart" id="ministatus" role="menu">
+
+				          </ul>
 					</li>
 
-					
+					<li class="dropdown head-dpdn">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user" aria-hidden="true"></i> My Account<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+						
+          				<li><a href="<?php echo base_url(); ?>Pagein/MyProfile">My Profile</a></li>
+          				<li><a href="<?php echo base_url(); ?>Auth/Logout">Logout</a></li>
+          			</ul>
+          		</li>
              
 						
 						 
@@ -380,6 +404,7 @@ ul.dropdown-cart li .item-right button{
 					<li class="dropdown head-dpdn">
 						<a href="<?php echo base_url(); ?>Auth/Register" class="dropdown-toggle"><i class="fa fa-user-plus" aria-hidden="true"></i> Sign Up</a>
 					</li>
+
 							<?php } ?>
 							
 							
@@ -409,7 +434,6 @@ ul.dropdown-cart li .item-right button{
 					<li class="dropdown head-dpdn">
 						<a href="<?php echo base_url(); ?>page/help" class="dropdown-toggle"><i class="fa fa-question-circle" aria-hidden="true"></i> Help</a>
 					</li>
-					
 				</ul>
 			</div>
 			<div class="clearfix"> </div> 
@@ -671,14 +695,11 @@ $( "button#print" ).click(function() {
   		 	function tambahwishlist(){
   		 	
         	var index = $(this).prev().prev().prev().attr('id');
-       		var jumlah_produk = document.getElementById("jumlah_produk"+index).value;
        		var id_produk = document.getElementById("id_produk"+index).value;
-       		var harga_produk = document.getElementById("harga_produk"+index).value;
-       		var nama_produk = document.getElementById("nama_produk"+index).value;
-			var merchant_id = document.getElementById("merchant_id"+index).value;
+       	
 			// alert(index);
 			
-			 if ( id_produk == "" ||  nama_produk == "" || harga_produk == "" || jumlah_produk == "" || merchant_id == "") {
+			 if ( id_produk == "") {
                  alert('Anda belum memilih produk');
                 
             }
@@ -688,7 +709,6 @@ $( "button#print" ).click(function() {
                     url: '<?php echo base_url(); ?>Transaksi/Wishproductin',
                     type: 'post',
                     context: this,
-                    
                     data: {id : id_produk},
                     success: function(e){
                         
@@ -705,11 +725,13 @@ $( "button#print" ).click(function() {
                         }
                         else  {
                          if($(this).hasClass('w3ls-cart w3ls-cart-like')){
-                        $(this).attr('id',"tambahwishlist");
+                        $(this).attr('id',"deletewishlist");
                         $(this).html('<i class="fa fa-heart" aria-hidden="true"></i> Unwishlist');
                         
                         $(this).off('click').on('click', deletewishlist);
                         $(this).prev().val(e);
+
+
 
                         }
                         else{
@@ -915,9 +937,11 @@ $("button#favoritemerchant").on('click', favoritemerchant);
 
 	
     setInterval(function(){ unseen_notification() }, 3000);
+    setInterval(function(){ mini_status() }, 3000);
 
-    	
 	</script>
+
+
 
 	<!-- add cart jquery -->
 	<!-- countdown.js -->	

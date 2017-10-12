@@ -19,13 +19,32 @@ class Pagein extends CI_Controller {
 		$view = $this->input->post('view');
 		if ($view == 'view') {
 			$output = '';
-			$result=$this->show_model->unseen_notification();
+			$result=$this->show_model->notification();
 			if(!empty($result)){
 				
 				
 				foreach ($result as $notification) {
+
+					if ($notification->type_notification == 'diskusi') {
+						$link = base_url().'page/detail_product/'.$notification->product_id;
+					}
+					// else if ($notification->type_notification == 'order_waiting') {
+					// 	$link = base_url().'Page/OrderAnda';
+					// }
+					else if ($notification->type_notification == 'order_process') {
+						$link = base_url().'page/OrderAnda';
+					}
+					else if ($notification->type_notification == 'order_finish') {
+						$link = base_url().'page/OrderSelesai';
+					}
+					else if ($notification->type_notification == 'order_cancel') {
+						$link = base_url().'page/OrderCancel';
+					}
+
 				$output .= '
+				 <a href="'.$link.'" target="_blank" style="color:black">
 				<li>
+               
                   <span class="item">
                     <span class="item-left">
 <span class="item-info">
@@ -40,10 +59,14 @@ class Pagein extends CI_Controller {
                     </span>
                     
                 </span>
+                
               </li>
+              </a>
 				';	
 
 				}
+				$output .= '<li class="divider"></li>
+              <li><a class="text-center" href="'.base_url().'pagein/MyProfile">Lihat Semua Notifikasi</a></li>';
 			}
 			else{
 				$output .= '<li class="text-center" >Tidak ada notifikasi terbaru</li>';
@@ -69,16 +92,106 @@ class Pagein extends CI_Controller {
 		
 	}
 
+	public function mini_status(){
+		$view = $this->input->post('view');
+		if ($view == 'view') {
+			$output = '';
+
+			$result=$this->show_model->notification();
+			if(!empty($result)){
+
+					
+				$count = 0;	
+				foreach ($result as $notification) {
+
+				if ($notification->type_notification != 'diskusi') {
+				
+					if ($notification->type_notification == 'order_waiting') {
+						$link = base_url().'Page/OrderAnda';
+					}
+					else if ($notification->type_notification == 'order_process') {
+						$link = base_url().'page/OrderAnda';
+					}
+					else if ($notification->type_notification == 'order_finish') {
+						$link = base_url().'page/OrderSelesai';
+					}
+					else if ($notification->type_notification == 'order_cancel') {
+						$link = base_url().'page/OrderCancel';
+					}
+				if ($notification->type_notification == 'order_waiting') {
+					$count++;
+				}
+				else if ($notification->type_notification == 'order_process') {
+					$count++;
+				}
+				
+				$output .= '
+				 <a href="'.$link.'" target="_blank" style="color:black">
+				<li>
+               
+                  <span class="item">
+                    <span class="item-left">
+<span class="item-info">
+                            <span>
+                             <strong>'.$notification->subject.' </strong>
+                            </span>
+                            <span>
+                        	'.$notification->text.'
+
+                            	</span>
+                        </span>
+                    </span>
+                    
+                </span>
+                
+              </li>
+              </a>
+				';	
+				}
+				
+				}
+				if ($output != '') {
+					$output .= '<li class="divider"></li>
+              <li><a class="text-center" href="'.base_url().'page/OrderAnda">Lihat Order Anda</a></li>';
+				}
+				else{
+					$output .= '<li class="text-center" >Anda Tidak Punya Order Baru</li>
+					<li class="divider"></li>
+              <li><a class="text-center" href="'.base_url().'page/OrderAnda">Lihat Order Anda</a></li>';
+				}
+				
+			}
+			else{
+				$output .= '<li class="text-center" >Anda Tidak Punya Order Baru</li>';
+				}
+			// $data = array(
+			// 	'notification' => $output,
+			// 	'amountNotifikasi' => $count
+			// );
+			echo $output.'|'.$count;
+
+		}
+		
+		
+	}
+
 	public function Checkout(){
 		
 		if ($this->session->userdata('logged_in') == true) {
 			$id=$this->session->userdata('logged_id');
 			$data['user']= $this->show_model->GetData(array("id"=>$id),'user_merchant');
 			$data['list_keranjang']= $this->show_model->GetDataKeranjang();
-			$data['amountorder'] = $this->show_model->AmountOrder();
-			
-            $data['main_view']= 'checkout';
+			// $data['amountorder'] = $this->show_model->AmountOrder();
+			if (!empty($this->show_model->GetDataKeranjang())) {
+		   	$data['main_view']= 'checkout';
 			$this->load->view('template_null',$data);
+		   }else{
+       
+			$this->session->set_flashdata('notif_log_password', 'Maaf, keranjang anda kosong');
+       
+        	redirect('page');
+        }
+            
         }else{
        
 			$this->session->set_flashdata('notif_log_password', 'Maaf, anda harus login terlebih dahulu.');
@@ -93,7 +206,7 @@ class Pagein extends CI_Controller {
 		if ($this->session->userdata('logged_in') == true) {
 			$id=$this->session->userdata('logged_id');
 			$data['list_cart']= $this->show_model->GetDataCart();
-			$data['amountorder'] = $this->show_model->AmountOrder();
+			// $data['amountorder'] = $this->show_model->AmountOrder();
 			$data['amountCart']=count($this->show_model->GetDataCart());
 			$data['user']= $this->show_model->GetData(array("id"=>$id),'user_merchant');
 			$data['countNotification']=count($this->show_model->GetDataNotification());
@@ -233,7 +346,7 @@ if ($this->session->userdata('logged_in') == true) {
 		}
 		$data['product_validation'] = $product_validation;
  		$data['list_cart']= $this->show_model->GetDataCart();
- 		$data['amountorder'] = $this->show_model->AmountOrder();
+ 		// $data['amountorder'] = $this->show_model->AmountOrder();
 		$data['amountCart']=count($this->show_model->GetDataCart());
  		$data['list_wish']= $this->show_model->GetDataWishlist();
  		$data['main_view']= 'wishlist';
@@ -254,7 +367,7 @@ if ($this->session->userdata('logged_in') == true) {
 		}
 
 		$data['user_validation']= $user_validation;
- 		$data['amountorder'] = $this->show_model->AmountOrder();
+ 		// $data['amountorder'] = $this->show_model->AmountOrder();
 		$data['amountCart']=count($this->show_model->GetDataCart());
 		$data['list_cart']= $this->show_model->GetDataCart();
 		$data['list_merchant']= $this->show_model->GetDataMerchantFavorite();

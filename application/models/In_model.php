@@ -344,6 +344,7 @@ public function Add_discuss($product_id,$merchant_id,$comment){
             'phone'     => $this->input->post('phone'),
             // 'status'    => 'Pesanan ditujukan ke Merchant',
             'comment'   => $this->input->post('comment'),
+            // 'status'        => 'Pesanan ditujukan ke Merchant',
             // 'noTCASH'   => $this->input->post('noTCASH'),
             
             'shipping'  => $this->input->post('shipping'),
@@ -372,7 +373,7 @@ public function Add_discuss($product_id,$merchant_id,$comment){
                 'merchant_name' => $field_data['merchant_name'][$i],
                 'merchant_phone'=> $field_data['merchant_phone'][$i],
                 'merchant_email'=> $field_data['merchant_email'][$i],
-                'status'        => 'Pesanan ditujukan ke Merchant',
+                'status'        => 'Menunggu Pembayaran',
                 'amount'        => $field_data['amount'][$i],
                 'price_item'    => $field_data['product_price'][$i],
                 'created_at'    => $field_data['created_at'][$i],
@@ -394,7 +395,30 @@ public function Add_discuss($product_id,$merchant_id,$comment){
         
 
         if ($this->db->affected_rows() > 0 ) {
+      
+
+        $insert_notif = array();
+        $username = $this->GetData(['id'=>$user_id],'user_merchant')->row('username');
+        for($i = 0; $i < count($field_data['product_id']); $i++)
+        {
+            $insert_notif[] = array(
+                
+                'from_id'               => $user_id,
+                'for_id'                => $field_data['merchant_id'][$i],
+                'subject'               => '@'.$username,
+                'text'                  => ' telah memesan '.$field_data['product_name'][$i],
+                'product_id'            => $field_data['product_id'][$i],
+                'type_notification'     => 'order_waiting',
+            );
+        }
+         $this->db->insert_batch('notification', $insert_notif);
+
+            if ($this->db->affected_rows() > 0 ) {
             return TRUE;
+        } 
+        else{
+            return FALSE;
+        }
         } else {
             return FALSE;
         }

@@ -296,8 +296,15 @@ if ($category_id == '11') {
 							<input type="hidden" id="jumlah_produk" class="this" name="" value="1"/> 
 							<input type="hidden" id="merchant_id" class="this" name="" value="<?php echo $product->merchant_id;?>"/>
 							<input type="hidden" id="id1" class="this" name="" value=""/> 
-							<button type="submit" id="tambahcart"  class="this btn btn-primary" ><i class="fa fa-cart-plus"></i> </button>
-							<input type="hidden" id="wishlist_id" name="" value="<?php echo $product->wish_id;?>" />
+							
+                          <?php if ($product->approve == '1') { ?>
+                          <button type="submit" id="tambahcart"  class="this btn btn-primary"><i class="fa fa-cart-plus"></i> </button>
+                          <?php
+                        } else{
+
+                          ?>
+                          <button class="this btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Produk Iklan"><i class="fa fa-info"></i> </button>
+                          <?php } ?><input type="hidden" id="wishlist_id" name="" value="<?php echo $product->wish_id;?>" />
 						
 									<?php
 						if (in_array($product->pro_id, $product_validation) && $this->session->userdata('logged_in') == TRUE ) { ?>

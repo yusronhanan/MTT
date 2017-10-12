@@ -62,7 +62,7 @@
 							 <div class="box-body">
               <div class="callout callout-success">
                 <h4>Keranjang Anda Kosong</h4>
-
+                <?php echo $this->session->userdata('logged_id'); ?>
                 <p style="color:white">Silahkan mulai menambah produk ke keranjang anda supaya dapat melakukan proses checkout.</p>
               </div>
             </div>

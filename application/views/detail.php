@@ -185,7 +185,11 @@ input[type="file"]{
 						echo $date; ?></p>
 						<h4>Deskripsi : </h4>
 						<p class="single-price-text">
+              <?php if ($detail->approve == '0') { ?>
+             <strong> (Produk Iklan, anda dapat langsung menghubungi ke Merchant terkait) </strong>
+              <br>
               <?php
+              }
               if ($detail->description != null || $detail->description != '') {
                  echo $detail->description .' <br> (jika ada penjelasan deskripsi yang kurang jelas, hubungi merchant atau buat diskusi untuk keterangan produk lebih lanjut.)';
                } 
@@ -196,10 +200,20 @@ input[type="file"]{
 							<input type="hidden" id="id_produk" class="this" name="" value="<?php echo $detail->product_id;?>" /> 
 							<input type="hidden" id="nama_produk" class="this" name="" value="<?php echo $detail->name;?>" /> 
 							<input type="hidden" id="harga_produk" class="this" name="" value="<?php echo $detail->price;?>" /> 
-							<input type="hidden" id="jumlah_produk" class="this" name="" value="1"/> 
-							<input type="hidden" id="merchant_id" class="this" name="" value="<?php echo $detail->merchant_id;?>"/>
-						<input type="hidden" id="id1" class="this" name="" value=""/> 
-						<button type="submit" id="tambahcart"  class="w3ls-cart" ><i class="fa fa-cart-plus"></i> Add to cart</button>
+				    	<input type="hidden" id="jumlah_produk" class="this" name="" value="1"/> 
+							
+              <input type="hidden" id="merchant_id" class="this" name="" value="<?php echo $detail->merchant_id;?>"/>
+					 <input type="hidden" id="id1" class="this" name="" value=""/> 
+                         <?php if ($detail->approve == '1') { ?>
+                          <button type="submit" id="tambahcart"  class="w3ls-cart" ><i class="fa fa-cart-plus"></i> Add to cart</button>
+                          <?php
+                        } else{
+
+                          ?>
+                            <button data-toggle="tooltip" data-placement="bottom" title="Produk Iklan"  class="w3ls-cart" ><i class="fa fa-info"></i> Iklan Produk</button>
+                         
+                          <?php } ?>
+					
 						<input type="hidden" id="wishlist_id" name="" value="<?php echo $detail->wish_id;?>" />
             
                   <?php

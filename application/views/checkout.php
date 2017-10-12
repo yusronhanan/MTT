@@ -6,8 +6,11 @@
 <h2 style="text-align: center;">
 Review Your Order &amp; Complete Checkout
 </h2>
-<?php if(!empty($notif)) {
-            echo '<div class="alert alert-warning alert-dismissible" role="alert">
+
+<?php
+$notif = $this->session->flashdata('notif');
+ if(!empty($notif)) {
+            echo '<div class="alert alert-info alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                 '.$notif.'
             </div>';
@@ -189,10 +192,7 @@ Review Your Order &amp; Complete Checkout
                 <div class="form-group">
                 <select class="form-control" id="id_shipping" name="shipping">
                 <option value="">--- Pilih Jenis Shipping ---</option>
-                <option value="COD (Cash On Delivery)">COD (Cash On Delivery)</option>
-                <option value="TOD (T-Cash On Delivery)">TOD (T-Cash On Delivery)</option>
-                <option value="Ambil di lokasi Merchant">Ambil di lokasi Merchant</option>
-                <option value="Ambil di Sekret MTT">Ambil di Sekret MTT</option>
+                <option value="Diantar ke Lokasi">Diantar ke Lokasi</option>
                 
                 </select>
                 </div>
@@ -223,61 +223,15 @@ Review Your Order &amp; Complete Checkout
        
 
     </table>
-</div>
-</div>
-</div>
-<div class="panel panel-default">
-<div class="panel-heading">
-<h4 class="panel-title">
-    <div style="text-align: center;"><a data-toggle="collapse"
-                                        data-parent="#accordion"
-                                        href="#collapseThree"
-                                        class=" btn   btn-tsel" id="payInfo"
-                                        style="width:100%;display: none;" onclick="$(this).fadeOut();  
-document.getElementById('collapseThree').scrollIntoView()">Lanjut ke Pembayaran &raquo;</a>
+    <h4 class="panel-title">
+    <div style="text-align: center;"><input type="submit" name="submit" id="pay" class="btn btn-tsel btn-lg" style="width:100%;" value="Menuju ke Tcash"/>
+
     </div>
 </h4>
 </div>
 </div>
-<div class="panel panel-default">
-<div class="panel-heading">
-<h4 class="panel-title">
-    <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-        <b>Data Pembayaran</b>
-    </a>
-</h4>
 </div>
-<div id="collapseThree" class="panel-collapse collapse">
-<div class="panel-body">
-    <span class='payment-errors'></span>
-    <fieldset>
-        <legend>Pembayaran</legend>
-        <div class="form-group">
-            <label class="col-sm-3 control-label" for="card-holder-name">Nomor HP T-CASH</label>
-            <div class="col-sm-9">
-                <input type="text" class="form-control" stripe-data="name"
-                       id="noTCASH" name="noTCASH" placeholder="Masukkan Nomor T-CASH Anda">
-            </div>
-        </div>
-            <div class="col-sm-9">
-               <img class="pull-right"
-                          src="<?php echo base_url(); ?>/assets/images/tcash-logo.png"
-                          style="max-width: 250px; padding-bottom: 20px;">
-                </div>
-</div>
-    </fieldset>
-    <input type="submit" name="submit" id="pay" class="btn btn-tsel btn-lg" style="width:100%;" value="Buy Now"/>
-    <br/>
-    <div style="text-align: left;"><br/>
-        By submiting this order you are agreeing to our <a href="/legal/billing/">universal
-            billing agreement</a>, and <a href="/legal/terms/">terms of service</a>.
-        If you have any questions about our products or services please contact us
-        before placing this order.
-    </div>
-</div>
-</div>
-</div>
-</div>
+
 </div>
 </form>
 </div>
