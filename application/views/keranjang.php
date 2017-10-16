@@ -62,7 +62,6 @@
 							 <div class="box-body">
               <div class="callout callout-success">
                 <h4>Keranjang Anda Kosong</h4>
-                <?php echo $this->session->userdata('logged_id'); ?>
                 <p style="color:white">Silahkan mulai menambah produk ke keranjang anda supaya dapat melakukan proses checkout.</p>
               </div>
             </div>
@@ -118,7 +117,7 @@
 							<td data-th="Harga">Rp. <?php echo $price;?></td>
 							<td data-th="Jumlah">
 							<input type="hidden" id="index" class="this" value="">
-								<input type="number" id="amount" min="0" class="this form-control text-center" value="<?php echo $value; ?>">
+								<input type="number" id="amount" min="1" class="this form-control text-center" value="<?php echo $value; ?>">
 							</td>
 							<td data-th="Ongkos Kirim">Rp. <?php echo $ongkir; ?></td>
 							<td data-th="Sub Harga" class="text-center">Rp. <?php echo $subTotal;?></td>

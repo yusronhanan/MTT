@@ -54,15 +54,15 @@
                                 <li data-target="#carousel-example-generic" data-slide-to="2"></li>
                             </ol>
                             <div class="carousel-inner">
-                                <div class="item active">
-                                    <img class="slide-image img-responsive" src="<?php echo base_url(); ?>assets/images/madusuper.jpg" alt="">
+                                <div class="item active" id="SLIDE1">
+                                    <img class="slide-image img-responsive"  src="a" alt="SLIDE1">
                                 </div>
-                                <div class="item">
-                                    <img class="slide-image img-responsive"  src="<?php echo base_url(); ?>assets/images/sedekah.jpg" alt="">
+                                <div class="item"  id="SLIDE2">
+                                    <img class="slide-image img-responsive"  src="B" alt="SLIDE2">
                                 </div>
                            
-                                <div class="item">
-                                    <img class="slide-image img-responsive"  src="<?php echo base_url(); ?>assets/images/sedekah.jpg" alt="">
+                                <div class="item" id="SLIDE3" >
+                                    <img class="slide-image img-responsive"  src="C" alt="SLIDE3">
                                 </div>
                             </div>
                             <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">

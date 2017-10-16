@@ -217,14 +217,13 @@ input[type="file"]{
                   <!-- timeline item -->
                   <?php foreach ($notification as $notiff) {
                    ?>
-                     <li class="time-label">
-                        <span class="bg-green">
-                          3 Jan. 2014
-                        </span>
-                  </li>
+                     
                   <li>
+                    <?php if ($notiff->type_notification == 'diskusi') {
+                        ?>
                     <i class="fa fa-comments bg-yellow"></i>
-
+                        <?php
+                      } ?>
                     <div class="timeline-item">
                       <span class="time"><i class="fa fa-clock-o"></i><?php echo $notiff->created_at ?></span>
 
@@ -233,9 +232,14 @@ input[type="file"]{
                       <div class="timeline-body">
                         <?php echo $notiff->comment ?>
                       </div>
+                      <?php if ($notiff->type_notification == 'diskusi') {
+                        ?>
                       <div class="timeline-footer">
                         <a class="btn btn-warning btn-flat btn-xs" href="<?php echo base_url() ?>Page/detail_product/<?php echo $notiff->product_id ?>">View comment</a>
                       </div>
+
+                        <?php
+                      } ?>
                     </div>
                   </li>
                 <?php }?>

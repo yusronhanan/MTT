@@ -40,6 +40,16 @@ class Pagein extends CI_Controller {
 					else if ($notification->type_notification == 'order_cancel') {
 						$link = base_url().'page/OrderCancel';
 					}
+					else if ($notification->type_notification == 'Broadcast') {
+						$link = '';
+					}
+					 if ($notification->type_notification == 'Broadcast') {
+						$sign = '(Broadcast)';
+					}
+					else{
+						$sign = '';	
+					}
+
 
 				$output .= '
 				 <a href="'.$link.'" target="_blank" style="color:black">
@@ -49,7 +59,7 @@ class Pagein extends CI_Controller {
                     <span class="item-left">
 <span class="item-info">
                             <span>
-                             <strong>'.$notification->subject.' </strong>
+                             <strong>'.$notification->subject.' </strong>'.$sign.'
                             </span>
                             <span>
                         	'.$notification->text.'
@@ -69,7 +79,9 @@ class Pagein extends CI_Controller {
               <li><a class="text-center" href="'.base_url().'pagein/MyProfile">Lihat Semua Notifikasi</a></li>';
 			}
 			else{
-				$output .= '<li class="text-center" >Tidak ada notifikasi terbaru</li>';
+				$output .= '<li class="text-center" >Tidak ada notifikasi terbaru</li>
+				<li class="divider"></li>
+              <li><a class="text-center" href="'.base_url().'pagein/MyProfile">Lihat Semua Notifikasi</a></li>';
 				}
 			$count = count($this->show_model->unseen_notification());
 			// $data = array(
@@ -96,32 +108,40 @@ class Pagein extends CI_Controller {
 		$view = $this->input->post('view');
 		if ($view == 'view') {
 			$output = '';
-
-			$result=$this->show_model->notification();
+			$count = 0;	
+			$result=$this->show_model->GetMiniStatus();
 			if(!empty($result)){
 
 					
 				$count = 0;	
 				foreach ($result as $notification) {
 
-				if ($notification->type_notification != 'diskusi') {
 				
-					if ($notification->type_notification == 'order_waiting') {
+					if ($notification->status_order_detail == 'Proses Kirim') {
 						$link = base_url().'Page/OrderAnda';
 					}
-					else if ($notification->type_notification == 'order_process') {
+					else if ($notification->status_order_detail == 'Pesanan ditujukan ke Merchant') {
 						$link = base_url().'page/OrderAnda';
 					}
-					else if ($notification->type_notification == 'order_finish') {
-						$link = base_url().'page/OrderSelesai';
+
+					if ($notification->status_order_detail == 'Proses Kirim') {
+						$merchant_username = $this->show_model->GetData(array("id"=>$notification->merchant_id),'user_merchant')->row('username');
+						$merchant_name = $this->show_model->GetData(array("id"=>$notification->merchant_id),'user_merchant')->row('name');
+						if (!empty($merchant_name)) { $fix_name = $merchant_name;}else{$fix_name =  $merchant_username;} 
+						$text = $fix_name.' telah mengirim order '.$notification->product_name.' anda';
 					}
-					else if ($notification->type_notification == 'order_cancel') {
-						$link = base_url().'page/OrderCancel';
+					else if ($notification->status_order_detail == 'Pesanan ditujukan ke Merchant') {
+						$merchant_username = $this->show_model->GetData(array("id"=>$notification->merchant_id),'user_merchant')->row('username');
+						$merchant_name = $this->show_model->GetData(array("id"=>$notification->merchant_id),'user_merchant')->row('name');
+						if (!empty($merchant_name)) { $fix_name = $merchant_name;}else{$fix_name =  $merchant_username;} 
+						$text = 'Order '.$notification->product_name.' anda sedang ditujukan ke '.$fix_name;
+					
 					}
-				if ($notification->type_notification == 'order_waiting') {
+					
+				if ($notification->status_order_detail == 'Pesanan ditujukan ke Merchant') {
 					$count++;
 				}
-				else if ($notification->type_notification == 'order_process') {
+				else if ($notification->status_order_detail == 'Proses Kirim') {
 					$count++;
 				}
 				
@@ -133,10 +153,10 @@ class Pagein extends CI_Controller {
                     <span class="item-left">
 <span class="item-info">
                             <span>
-                             <strong>'.$notification->subject.' </strong>
+                             <strong>'.$notification->buyer.' </strong>
                             </span>
                             <span>
-                        	'.$notification->text.'
+                        	'.$text.'
 
                             	</span>
                         </span>
@@ -147,7 +167,7 @@ class Pagein extends CI_Controller {
               </li>
               </a>
 				';	
-				}
+				
 				
 				}
 				if ($output != '') {
@@ -162,7 +182,8 @@ class Pagein extends CI_Controller {
 				
 			}
 			else{
-				$output .= '<li class="text-center" >Anda Tidak Punya Order Baru</li>';
+				$output .= '<li class="text-center" >Anda Tidak Punya Order Baru</li><li><a class="text-center" href="'.base_url().'page/OrderAnda">Lihat Order Anda</a></li>';
+				
 				}
 			// $data = array(
 			// 	'notification' => $output,

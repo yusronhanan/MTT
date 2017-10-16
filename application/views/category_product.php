@@ -439,12 +439,7 @@ if ($category_id == '11') {
 				</div>
 				</div>
 				<!-- add-products --> 
-				<div class="w3ls-add-grids w3agile-add-products">
-					<a href="#"> 
-						<h4>Pesan Umroh sekarang <span>15%</span> Diskon</h4>
-						<h6>Umroh sekarang <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h6>
-					</a>
-				</div> 
+				
 				<!-- //add-products -->
 			</div>
 			<div class="col-md-3 rsidebar">

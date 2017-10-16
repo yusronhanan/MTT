@@ -468,21 +468,7 @@ input[type="file"]{
 </div>
 			<!-- discuss -->
 			<!-- offers-cards --> 
-			<div class="w3single-offers offer-bottom" style="margin-top:25px"> 
-				<div class="col-md-6 offer-bottom-grids">
-					<div class="offer-bottom-grids-info2">
-						<h4>Madu Spesial</h4> 
-						<h6>Madu asik</h6>
-					</div>
-				</div>
-				<div class="col-md-6 offer-bottom-grids">
-					<div class="offer-bottom-grids-info">
-						<h4>Umroh Murah</h4> 
-						<h6>Umroh cuma 20 juta !</h6>
-					</div>
-				</div>
-				<div class="clearfix"> </div>
-			</div>
+			
 			<!-- //offers-cards -->
 		</div>
 	</div>

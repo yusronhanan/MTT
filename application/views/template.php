@@ -28,8 +28,7 @@
     		}
     	});
         }
-
-         function mini_status() {
+ 		function mini_status() {
         	var view = 'view';
    	
             $.ajax({
@@ -51,8 +50,32 @@
     		}
     	});
         }
+        function load_config(){
+        	var view = 'view';
+   			
+            $.ajax({
+    		url:"<?php echo base_url(); ?>page/config_image",
+    		method:"POST",
+    		data:{view:view},
+    		// dataType:"json",
+    		success:function(e){
+    			var data = e.split("|");
+    		
+        		$('#SLIDE1').html('<img class="slide-image img-responsive"  src="<?php echo base_url()?>assets/images/'+data[1]+'" alt="SLIDE1">');
+        		$('#SLIDE2').html('<img class="slide-image img-responsive"  src="<?php echo base_url()?>assets/images/'+data[2]+'" alt="SLIDE2">');
+        		$('#SLIDE3').html('<img class="slide-image img-responsive"  src="<?php echo base_url()?>assets/images/'+data[3]+'" alt="SLIDE3">');
+
+    			
+        		
+        }
+        });
+            e.preventDefault();
+        }
+
+        
         window.onload = unseen_notification;
         window.onload = mini_status;
+        window.onload = load_config;
 
         </script>
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);

@@ -164,8 +164,7 @@
             <ul class="nav nav-tabs">
               <!-- <li class="active"><a href="#activity" data-toggle="tab">Activity</a></li> -->
               <li class="active"><a href="#merchant_product" data-toggle="tab">Merchant Product</a></li>
-              <li><a href="#notification" data-toggle="tab">Timeline</a></li>
-              <!-- <li><a href="#settings" data-toggle="tab">Settings</a></li> -->
+             <!-- <li><a href="#settings" data-toggle="tab">Settings</a></li> -->
             </ul>
             <div class="tab-content">
              <div class="active tab-pane" id="merchant_product">
@@ -241,63 +240,7 @@
                 <!-- /.post -->
               </div>
             </div>
-              <!-- /.tab-pane -->
-              <div class="tab-pane" id="notification">
-                <!-- The timeline -->
-               
-                  <?php 
-                  if (!empty($notification)) {
-                  ?>
-                   <ul class="timeline timeline-inverse">
-                  <?php
-                  foreach ($notification as $notiff) {
-                   ?>
-                     <li class="time-label">
-                        <span class="bg-green">
-                          3 Jan. 2014
-                        </span>
-                  </li>
-                  <li>
-                    <i class="fa fa-comments bg-yellow"></i>
-
-                    <div class="timeline-item">
-                      <span class="time"><i class="fa fa-clock-o"></i><?php echo $notiff->created_at ?></span>
-
-                      <h3 class="timeline-header"><a href="#"><?php echo $notiff->subject ?></a> <?php echo $notiff->text ?></h3>
-
-                      <div class="timeline-body">
-                        <?php echo $notiff->comment ?>
-                      </div>
-                      <div class="timeline-footer">
-                        <a class="btn btn-warning btn-flat btn-xs" href="<?php echo base_url() ?>Page/detail_product/<?php echo $notiff->product_id ?>">View comment</a>
-                      </div>
-                    </div>
-                  </li>
-
-                <?php }
-                ?>
-                <!-- END timeline item -->
-                  <li>
-                    <i class="fa fa-clock-o bg-gray"></i>
-                  </li>
-                </ul>
-
-                <?php
-              }
-                  else{?>
-              
-              
-              <div class="box-body">
-              <div class="callout callout-success">
-                <h4>Maaf!</h4>
-
-                <p style="color:white">Timeline (Diskusi dan Aktivitas lain)  dari merchant <?php if(!empty($list_merchant->name)) {  echo $list_merchant->name;} else{ echo $list_merchant->username;} ?> belum ada.</p>
-              </div>
-            </div>
-         <?php   } ?>
-
-                                </div>
-              <!-- /.tab-pane -->
+            
 
           
             </div>

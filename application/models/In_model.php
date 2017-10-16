@@ -344,7 +344,7 @@ public function Add_discuss($product_id,$merchant_id,$comment){
             'phone'     => $this->input->post('phone'),
             // 'status'    => 'Pesanan ditujukan ke Merchant',
             'comment'   => $this->input->post('comment'),
-            // 'status'        => 'Pesanan ditujukan ke Merchant',
+            'status'        => 'Pesanan ditujukan ke Merchant',
             // 'noTCASH'   => $this->input->post('noTCASH'),
             
             'shipping'  => $this->input->post('shipping'),

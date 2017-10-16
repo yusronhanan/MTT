@@ -9,7 +9,23 @@ class Show_model extends CI_Model {
 		//Do your magic here
 	}
 
-	
+	 public function GetMiniStatus()
+    {
+      $user_id = $this->session->userdata('logged_id');
+      return $this->db->select('*, product_order.id as product_order_id, product_order_detail.id as product_order_detail_id, product_order.status as status_order, product_order_detail.status as status_order_detail')
+            ->from('product_order')
+            ->where('product_order.user_id',$user_id)
+            ->where('product_order_detail.status','Proses Kirim')
+            ->or_where('product_order.user_id',$user_id)
+            ->where('product_order_detail.status','Pesanan ditujukan ke Merchant')
+            ->join('product_order_detail', 'product_order.id = product_order_detail.order_id')
+            ->order_by('product_order_detail.last_update', 'DESC')
+            ->get()
+            ->result();
+            
+    }
+
+
 
     public function GetData($where, $table)
     {
@@ -95,6 +111,8 @@ class Show_model extends CI_Model {
     public function notification(){
       $user_id = $this->session->userdata('logged_id');
       return $this->db->where('for_id',$user_id)
+              ->or_where('for_id','0920')
+              ->or_where('for_id','0921')
               ->order_by('id_notification')
               // ->limit(5,0)
               ->get('notification')
@@ -105,6 +123,7 @@ class Show_model extends CI_Model {
     public function unseen_notification(){
       $user_id = $this->session->userdata('logged_id');
       return $this->db->where('for_id',$user_id)
+
               ->where('status','0')
               ->order_by('id_notification')
               ->get('notification')

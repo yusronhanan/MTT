@@ -38,7 +38,22 @@ class Page extends CI_Controller {
 		$this->load->view('template', $data);
 
 	}
+	public function config_image(){
+		$view = $this->input->post('view');
+		if ($view == 'view') {
+		
+		$SLIDE1 = $this->in_model->GetData(['code'=> 'SLIDE1'],'config')->row('value');
+		$SLIDE2 = $this->in_model->GetData(['code'=> 'SLIDE2'],'config')->row('value');
+		$SLIDE3 = $this->in_model->GetData(['code'=> 'SLIDE3'],'config')->row('value');
+		
+		$ADS1 = $this->in_model->GetData(['code'=> 'ADS1'],'config')->row('value');
+		$ADS2 = $this->in_model->GetData(['code'=> 'ADS2'],'config')->row('value');
+		$ADSBIG = $this->in_model->GetData(['code'=> 'ADSBIG'],'config')->row('value');
+		
+		echo 'abaikan'.'|'.$SLIDE1.'|'.$SLIDE2.'|'.$SLIDE3;
 	
+		}
+	}
 
 
 	
@@ -400,7 +415,6 @@ class Page extends CI_Controller {
 			$user_validation[] = $favor->merchant_id;
 		}
 
-		$data['notification']=$this->show_model->GetDataTlmerchant($merchant_id);
 		$data['user_validation']= $user_validation;
 		$data['product_validation'] = $product_validation;
 		$data['amountCart']=count($this->show_model->GetDataCart());
